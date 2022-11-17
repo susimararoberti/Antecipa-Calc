@@ -5,24 +5,23 @@ export const Card = styled.div`
   flex-direction: column;
   align-items: flex-start;
   width: calc(100% - 40px);
-  max-width: 300px;
   padding: 1rem;
 
   h3 {
     color: #e6eaff;
-    font-size: 2.5vh;
+    font-size: 2.2vh;
     margin-top: 3vh;
     margin-bottom: 4vh;
   }
 
   div {
     display: flex;
-    width: 90%;
+    width: 100%;
     flex-direction: column;
 
     div {
       display: flex;
-      width: 90%;
+      width: 100%;
       flex-direction: row;
     }
 
@@ -32,13 +31,13 @@ export const Card = styled.div`
       margin-top: 1vh;
       margin-bottom: 1vh;
     }
+  }
 
-    span {
-      color: #e6eaff;
-      font-size: 2vh;
-      font-weight: 500;
-      margin-top: 1vh;
-      margin-bottom: 1vh;
-    }
+  @media (min-width: 1450px) {
+    max-width: 40%;
+  }
+
+  @media (min-width: 1600px) {
+    max-width: 30%;
   }
 `;

@@ -5,7 +5,6 @@ export const StyledForm = styled.div`
   flex-direction: column;
   align-items: center;
   width: calc(100% - 20px);
-  max-width: 480px;
   padding: 1rem;
 
   h2 {
@@ -55,5 +54,13 @@ export const StyledForm = styled.div`
       margin-top: 2vh;
       margin-bottom: 3vh;
     }
+  }
+
+  @media (min-width: 1450px) {
+    max-width: 40%;
+  }
+
+  @media (min-width: 1600px) {
+    max-width: 50%;
   }
 `;
