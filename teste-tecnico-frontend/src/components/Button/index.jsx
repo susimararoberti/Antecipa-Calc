@@ -1,5 +1,11 @@
-function Button() {
-  return <button>Clique</button>;
+import { Button } from "./styles";
+
+function ButtonComp({ onclick, type, nameButton }) {
+  return (
+    <Button onclick={onclick} type={type}>
+      {nameButton}
+    </Button>
+  );
 }
 
-export default Button;
+export default ButtonComp;
