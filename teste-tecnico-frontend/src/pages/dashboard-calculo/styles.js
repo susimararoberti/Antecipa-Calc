@@ -5,6 +5,10 @@ export const Container = styled.main`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(45deg, #faf7f0, #cdfcf6, #bccef8, #98a8f8);
+  background-size: 200% 200%;
 `;
 
 export const Box = styled.section`
@@ -13,7 +17,6 @@ export const Box = styled.section`
   align-items: center;
   justify-content: center;
   width: 90%;
-  height: 80%;
   padding: 1vh;
   margin-top: 5vh;
   box-shadow: 0px 0px 12px 5px #00000033;

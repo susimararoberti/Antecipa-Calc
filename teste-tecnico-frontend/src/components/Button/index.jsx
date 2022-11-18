@@ -2,7 +2,7 @@ import { Button } from "./styles";
 
 function ButtonComp({ onclick, type, nameButton }) {
   return (
-    <Button onclick={onclick} type={type}>
+    <Button onClick={onclick} type={type}>
       {nameButton}
     </Button>
   );

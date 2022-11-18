@@ -2,6 +2,7 @@ import API from "../../services/api";
 import ButtonComp from "../../components/Button";
 import FormComp from "../../components/Form";
 import { Box, Container, Errors } from "./styles";
+import { Select } from "../../components/Form/styles";
 import CardComp from "../../components/Card";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
@@ -10,8 +11,10 @@ import { useEffect, useState } from "react";
 
 function DashboardCalculo() {
   const [calculos, setCalculos] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(false);
 
-  useEffect(() => {}, [calculos]);
+  useEffect(() => {}, [calculos, error]);
 
   const schema = yup.object().shape({
     amount: yup
@@ -49,7 +52,28 @@ function DashboardCalculo() {
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
 
-  const calcular = ({ amount, installments, mdr, daysString }) => {
+  const calcular = ({ amount, installments, mdr, daysString, errors }) => {
+    let urlReq;
+
+    switch (errors) {
+      case "normal":
+        urlReq = "/";
+        break;
+      case "timeout":
+        urlReq = "?timeout";
+        break;
+      case "inter":
+        urlReq = "?internalError";
+        break;
+      case "delay":
+        urlReq = "?delay=5000";
+        break;
+      default:
+        break;
+    }
+
+    setIsLoading(true);
+
     const days = daysString.split(",").map((date) => date.trim());
     let dados = {
       amount,
@@ -61,14 +85,24 @@ function DashboardCalculo() {
       dados = { days, ...dados };
     }
 
-    API.post("/", dados)
+    API.post(urlReq, dados)
       .then((res) => {
         setCalculos(res.data);
-
+        setIsLoading(false);
         return;
       })
       .catch((err) => {
-        return console.log(err);
+        setCalculos(null);
+        if (err.response.request.status === 408) {
+          setError(
+            "A requisição demorou muito, o servidor pode estar fora do ar!"
+          );
+        }
+        if (err.response.request.status === 500) {
+          setError("Servidor fora do ar!");
+        }
+        setIsLoading(false);
+        return err.response.request.status;
       });
   };
 
@@ -124,9 +158,50 @@ function DashboardCalculo() {
               {...register("daysString")}
             />
           </div>
+          <Select>
+            <label htmlFor="normal">Normal</label>
+            <input
+              defaultChecked
+              type="radio"
+              id="normal"
+              name="errors"
+              value="normal"
+              {...register("errors")}
+            />
+            <label htmlFor="timeout">Timeout</label>
+            <input
+              type="radio"
+              id="timeout"
+              name="errors"
+              value="timeout"
+              {...register("errors")}
+            />
+            <label htmlFor="delay">Delay</label>
+            <input
+              type="radio"
+              id="delay"
+              name="errors"
+              value="delay"
+              {...register("errors")}
+            />
+            <label htmlFor="inter">Internal Server Error</label>
+            <input
+              type="radio"
+              id="inter"
+              name="errors"
+              value="inter"
+              {...register("errors")}
+            />
+          </Select>
           <ButtonComp type="submit" nameButton="Calcular"></ButtonComp>
         </FormComp>
-        {calculos && <CardComp title="VOCÊ RECEBERÁ:" resultado={calculos} />}
+        {isLoading ? (
+          <CardComp title="Calculando..." resultado={false} />
+        ) : calculos ? (
+          <CardComp title="VOCÊ RECEBERÁ:" resultado={calculos} />
+        ) : (
+          error && <CardComp title="OPS..." resultado={false} error={error} />
+        )}
       </Box>
     </Container>
   );

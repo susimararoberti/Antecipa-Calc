@@ -1,5 +1,12 @@
+import { StyledHome } from "./styles";
+import BoxHome from "../../components/BoxHome";
+
 function Home() {
-  return <h1>Página Home</h1>;
+  return (
+    <StyledHome>
+      <BoxHome />
+    </StyledHome>
+  );
 }
 
 export default Home;
