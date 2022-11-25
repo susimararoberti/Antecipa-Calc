@@ -1,4 +1,5 @@
 import { useHistory } from "react-router-dom";
+
 import { StyledBox } from "./styles";
 
 function BoxHome() {
@@ -6,7 +7,6 @@ function BoxHome() {
 
   const levarACalculadora = () => {
     dashboard.push("/dashboard");
-    console.log("clicou");
   };
 
   return (

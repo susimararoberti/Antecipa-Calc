@@ -1,8 +1,8 @@
 import { Card } from "./styles";
 
-function CardComp({ title, resultado, error }) {
-  const values = Object.values(resultado);
-  const keys = Object.keys(resultado);
+function CardComp({ title, result, error }) {
+  const values = Object.values(result);
+  const keys = Object.keys(result);
 
   return (
     <Card>
@@ -14,7 +14,7 @@ function CardComp({ title, resultado, error }) {
         </div>
       )}
 
-      {resultado && (
+      {result && (
         <div>
           {keys?.map((key) => {
             return (

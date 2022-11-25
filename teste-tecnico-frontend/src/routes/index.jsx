@@ -1,5 +1,5 @@
 import { Route, Switch } from "react-router-dom";
-import DashboardCalculo from "../pages/dashboard-calculo";
+import Dashboard from "../pages/dashboard";
 import Home from "../pages/home";
 
 function Routes() {
@@ -9,7 +9,7 @@ function Routes() {
         <Home />
       </Route>
       <Route path="/dashboard" exact>
-        <DashboardCalculo />
+        <Dashboard />
       </Route>
       <Route path="/">
         <Home />

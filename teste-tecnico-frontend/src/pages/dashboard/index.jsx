@@ -1,20 +1,23 @@
-import API from "../../services/api";
-import ButtonComp from "../../components/Button";
-import FormComp from "../../components/Form";
-import { Box, Container, Errors } from "./styles";
-import { Select } from "../../components/Form/styles";
-import CardComp from "../../components/Card";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useState } from "react";
 
-function DashboardCalculo() {
-  const [calculos, setCalculos] = useState(null);
+import API from "../../services/api";
+
+import { Box, Container, Errors } from "./styles";
+
+import ButtonComp from "../../components/Button";
+import FormComp from "../../components/Form";
+import { Select } from "../../components/Form/styles";
+import CardComp from "../../components/Card";
+
+function Dashboard() {
+  const [calcs, setCalcs] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
 
-  useEffect(() => {}, [calculos, error]);
+  useEffect(() => {}, [calcs, error]);
 
   const schema = yup.object().shape({
     amount: yup
@@ -87,12 +90,12 @@ function DashboardCalculo() {
 
     API.post(urlReq, dados)
       .then((res) => {
-        setCalculos(res.data);
+        setCalcs(res.data);
         setIsLoading(false);
         return;
       })
       .catch((err) => {
-        setCalculos(null);
+        setCalcs(null);
         if (err.response.request.status === 408) {
           setError(
             "A requisição demorou muito, o servidor pode estar fora do ar!"
@@ -196,15 +199,15 @@ function DashboardCalculo() {
           <ButtonComp type="submit" nameButton="Calcular"></ButtonComp>
         </FormComp>
         {isLoading ? (
-          <CardComp title="Calculando..." resultado={false} />
-        ) : calculos ? (
-          <CardComp title="VOCÊ RECEBERÁ:" resultado={calculos} />
+          <CardComp title="Calculando..." result={false} />
+        ) : calcs ? (
+          <CardComp title="VOCÊ RECEBERÁ:" result={calcs} />
         ) : (
-          error && <CardComp title="OPS..." resultado={false} error={error} />
+          error && <CardComp title="OPS..." result={false} error={error} />
         )}
       </Box>
     </Container>
   );
 }
 
-export default DashboardCalculo;
+export default Dashboard;
